@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles/androidstudio.css">
+    <script src="js/highlight.pack.js"></script>
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <style>
+        #btn {
+            width: 30%;
+            height: 300px;
+            float: left;
+        }
+        #title {
+            width: 30%;
+            height: 290px;
+            float: left;
+        }
+    </style>
+</head>
+<body>
+
+<label>
+    <select name="select" onchange=todo(this.value)>
+        <option value="cpp">cpp</option>
+        <option value="java">java</option>
+        <option value="python">python</option>
+        <option value="php">php</option>
+        <option value="kotlin">kotlin</option>
+    </select>
+</label>
+
+<br/><br/>
+<pre><label for="btn"></label><textarea id='btn' disable='disable' value="int main()"></textarea></pre>
+
+<pre><code class="cpp" id="title"></code></pre>
+<script>
+    const oBtn = document.getElementById('btn');
+    const oTi = document.getElementById('title');
+    function todo(value) {
+        var it = document.getElementById("title");
+        it.className = (value + " hljs");
+        console.log(it);
+        getWord();
+    }
+    function setCursorPosition(ctrl, pos) {
+        if (ctrl.setSelectionRange) {
+            ctrl.focus();
+            ctrl.setSelectionRange(pos, pos);
+        }
+    }
+    window.onkeydown = function (event) {
+        if (event.keyCode === 9) {
+            oBtn.value += "    ";
+            oTi.innerHTML += "    ";
+            event.returnValue = false;
+        } else if (event.keyCode === 13) {
+            var str = oTi.innerHTML;
+            if (str.charAt(str.length - 1) === '{') {
+                oBtn.value += "\n    \n}";
+                oTi.innerHTML += "\n    \n}";
+                str = oTi.innerHTML;
+                setCursorPosition(oBtn, str.length - 2);
+                event.returnValue = false;
+            }
+        }
+        const arrays = oBtn.value.split(' ');
+        console.log(arrays[arrays.length - 1]);
+    };
+    if ('oninput' in oBtn) {
+        oBtn.addEventListener("input", getWord, false);
+
+    } else {
+        oBtn.onpropertychange = getWord;
+    }
+    function getWord() {
+        oTi.innerHTML = oBtn.value;
+        $('pre code').each(function (i, e) {
+            hljs.highlightBlock(e)
+        });
+    }
+</script>
+<!--<script>hljs.initHighlightingOnLoad();</script>-->
+</body>
+</html>
