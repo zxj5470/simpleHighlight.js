@@ -27,6 +27,7 @@
         <option value="java">java</option>
         <option value="python">python</option>
         <option value="php">php</option>
+        <option value="sql">sql</option>
         <option value="kotlin">kotlin</option>
     </select>
 </label>
@@ -39,17 +40,19 @@
     const oBtn = document.getElementById('btn');
     const oTi = document.getElementById('title');
     function todo(value) {
-        var it = document.getElementById("title");
+        const it = document.getElementById("title");
         it.className = (value + " hljs");
         console.log(it);
         getWord();
     }
+
     function setCursorPosition(ctrl, pos) {
         if (ctrl.setSelectionRange) {
             ctrl.focus();
             ctrl.setSelectionRange(pos, pos);
         }
     }
+
     window.onkeydown = function (event) {
         if (event.keyCode === 9) {
             oBtn.value += "    ";
@@ -68,6 +71,7 @@
         const arrays = oBtn.value.split(' ');
         console.log(arrays[arrays.length - 1]);
     };
+
     if ('oninput' in oBtn) {
         oBtn.addEventListener("input", getWord, false);
 
